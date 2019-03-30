@@ -27,7 +27,7 @@ public class UrlShortenerEndpoint {
     this.urlShortenerFacade = urlShortenerFacade;
   }
 
-  @PostMapping
+  @PostMapping("/shorten")
   @ResponseStatus(code = HttpStatus.CREATED)
   public String shorten(@RequestBody UrlShortenerRequest urlShortenerRequest) {
     logger.info("Shortening url for: {}", urlShortenerRequest);
