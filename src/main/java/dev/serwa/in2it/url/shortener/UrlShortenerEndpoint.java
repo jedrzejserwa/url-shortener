@@ -1,6 +1,7 @@
 package dev.serwa.in2it.url.shortener;
 
 import dev.serwa.in2it.url.shortener.domain.UrlShortenerFacade;
+import dev.serwa.in2it.url.shortener.dto.UrlShortcut;
 import dev.serwa.in2it.url.shortener.dto.UrlShortenerRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,10 +30,12 @@ public class UrlShortenerEndpoint {
 
   @PostMapping("/shorten")
   @ResponseStatus(code = HttpStatus.CREATED)
-  public String shorten(@RequestBody UrlShortenerRequest urlShortenerRequest) {
+  public UrlShortcut shorten(@RequestBody UrlShortenerRequest urlShortenerRequest) {
     logger.info("Shortening url for: {}", urlShortenerRequest);
 
-    return urlShortenerFacade.store(urlShortenerRequest.url);
+    String urlShortcut = urlShortenerFacade.store(urlShortenerRequest.url);
+
+    return new UrlShortcut(urlShortcut);
   }
 
   @GetMapping("/{urlShortcut}")

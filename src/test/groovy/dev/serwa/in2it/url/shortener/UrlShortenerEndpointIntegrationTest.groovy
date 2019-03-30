@@ -3,6 +3,7 @@ package dev.serwa.in2it.url.shortener
 import dev.serwa.in2it.IntegrationTest
 import dev.serwa.in2it.infrastructure.rest.RestErrorMessage
 import dev.serwa.in2it.url.shortener.domain.UrlShortenerFacade
+import dev.serwa.in2it.url.shortener.dto.UrlShortcut
 import dev.serwa.in2it.url.shortener.dto.UrlShortenerRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
@@ -18,11 +19,11 @@ class UrlShortenerEndpointIntegrationTest extends IntegrationTest {
     UrlShortenerRequest request = new UrlShortenerRequest("https://google.com")
 
     when:
-    def response = testRestTemplate.postForEntity("/v1/shorten", request, String.class)
+    def response = testRestTemplate.postForEntity("/v1/shorten", request, UrlShortcut.class)
 
     then:
     response.statusCode == HttpStatus.CREATED
-    !response.body.isBlank()
+    !response.body.urlShortcut.isBlank()
   }
 
   def "Shouldn't get redirected when passed wrong shortcut"() {
